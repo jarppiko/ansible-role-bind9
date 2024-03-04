@@ -1,4 +1,6 @@
 galaxy_info:
+  role_name: bind
+  namespace: aalaesar
   author: Aalaesar
   description: Use YAML syntax/files to configure Bind (options, zones data, etc) from Ansible. (Also install and manage the bind9 server on Debian/Ubuntu servers).
   license: BSD
