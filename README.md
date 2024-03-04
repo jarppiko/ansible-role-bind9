@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/aalaesar/manage-bind.svg?branch=master)](https://travis-ci.org/aalaesar/manage-bind)
+[![Build Status](https://travis-ci.org/aalaesar/manage-bind.svg?branch=primary)](https://travis-ci.org/aalaesar/manage-bind)
 # Ansible Role: manage-bind 2.0
  This role is built as an abtraction layer to configure bind and create DNS zones using YAML syntax.
 - [x] Install and manage your bind9 server on Debian/Ubuntu servers.
@@ -31,7 +31,7 @@ bind_service_state: started
 bind_service_enabled: yes
 # Configs
 bind_configs_dir: /etc/bind
-bind_config_master_zones: []
+bind_config_primary_zones: []
 bind_config_default_zones: 'yes'
 RFC1918: no
 # Zones files
@@ -176,7 +176,7 @@ A zone is a mapping where the zone name is its main key  and its statements are 
 ```yaml
 zones:
   example.com: # The domain's name
-    type: master # Mandatory. The type of the zone : master|slave|forward|stub
+    type: primary # Mandatory. The type of the zone : primary|slave|forward|stub
     recursion: "no" # statement overriding global option "recursion" for this zone.
     ... # etc
 ```
@@ -252,8 +252,8 @@ None.
 ### Exemple configuration :
 - You own the zones example.tld, example.com and example.org
 - You have 2 name servers : dnserver1 (11.22.33.44) & dnserver2 (55.66.77.88)
-- dnserver1 is master of example.tld and slave of example.com.
-- dnserver2 is master of example.com and slave of example.tld
+- dnserver1 is primary of example.tld and slave of example.com.
+- dnserver2 is primary of example.com and slave of example.tld
 - example.tld is dynamically populated by a DHCP server
 
 ### dnserver1's playbook :
@@ -267,7 +267,7 @@ None.
         allow_transfer: '55.66.77.88'
       zones:
         example.tld:
-          type: master
+          type: primary
           force_file: no
           notify: '55.66.77.88'
           allow_update:
@@ -285,7 +285,7 @@ None.
                 dnserver2: 55.66.77.88
         example.com:
           type: slave
-          masters: '55.66.77.88'
+          primaries: '55.66.77.88'
       keys:
       - name: dhcp_updater
         algorithm: "hmac-md5"
@@ -306,7 +306,7 @@ None.
           notify: '11.22.33.44'
         example.tld:
          type: slave
-         masters: '11.22.33.44'
+         primaries: '11.22.33.44'
          ymlfile: example.com.yml
 ```
 ### YAML file for example.com.yml on dnserver2

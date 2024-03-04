@@ -8,22 +8,22 @@ zone "." {
 // broadcast zones as per RFC 1912
 
 zone "localhost" {
-	type master;
+	type primary;
 	file "{{ bind_configs_dir }}/db.local";
 };
 
 zone "127.in-addr.arpa" {
-	type master;
+	type primary;
 	file "{{ bind_configs_dir }}/db.127";
 };
 
 zone "0.in-addr.arpa" {
-	type master;
+	type primary;
 	file "{{ bind_configs_dir }}/db.0";
 };
 
 zone "255.in-addr.arpa" {
-	type master;
+	type primary;
 	file "{{ bind_configs_dir }}/db.255";
 };
 

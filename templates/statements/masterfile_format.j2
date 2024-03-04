@@ -1,10 +1,10 @@
-{% if clause.masterfile_format is defined %}
-  masterfile-format {{ clause.masterfile_format }};
+{% if clause.primaryfile_format is defined %}
+  primaryfile-format {{ clause.primaryfile_format }};
 {% endif %}
-{# master slave zone, view, options 
+{# primary slave zone, view, options 
 ---
 clause:
-  masterfile_format: text # text | raw | map
-  # master zone default = text
+  primaryfile_format: text # text | raw | map
+  # primary zone default = text
   # slave zones default = raw
 #}

@@ -75,9 +75,9 @@ bind_clauses:
       - transfers_out
       - transfers_per_ns
       - use_alt_transfer_source
-      - multi_master
+      - multi_primary
     zones:
-      - masterfile_format
+      - primaryfile_format
     queries:
       - additional_from_auth
       - additional_from_cache
@@ -132,7 +132,7 @@ bind_clauses:
       - update_policy
       - use_alt_transfer_source
       - zone_statictics
-    master:
+    primary:
       - allow_update
       - also_notify
       - max_transfer_idle_out
@@ -140,11 +140,11 @@ bind_clauses:
       - notify
       - notify_source
       - notify_source_v6
-      - masterfile_format
+      - primaryfile_format
       - transfer_format
     slave:
-      - masters
-      - masterfile_format
+      - primaries
+      - primaryfile_format
       - transfer_source
       - transfer_source_v6
       - alt_transfer_source
@@ -155,7 +155,7 @@ bind_clauses:
       - min_refresh_time
       - max_retry_time
       - min_retry_time
-      - multi_master
+      - multi_primary
       - notify
       - allow_notify
     forward:

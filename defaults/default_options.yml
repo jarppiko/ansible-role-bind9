@@ -15,7 +15,7 @@ default_options:
   also_notify: []
   #alt_transfer_source:
   #alt_transfer_source_v6:
-  auth_nxdomain: 'no'
+  auth_nxdomain: "no"
   #avoid_v4_udp_ports:
   #avoid_v6_udp_ports:
   #blackhole:
@@ -48,7 +48,7 @@ default_options:
   #lame_ttl:
   listen_on: any
   #listen_on_v6: any
-  #masterfile_format:
+  #primaryfile_format:
   #match_mapped_addresses:
   #max_cache_size:
   #max_cache_ttl:
@@ -65,9 +65,9 @@ default_options:
   #minimal_responses:
   #min_refresh_time:
   #min_retry_time:
-  #multi_master:
-  notify: 'yes'
-  notify_source: '*'
+  #multi_primary:
+  notify: "yes"
+  notify_source: "*"
   #notify_source_v6:
   #pid_file:
   #port:
@@ -75,12 +75,12 @@ default_options:
   #provide_ixfr:
   #querylog:
   query_source:
-#    address: '*'
-    port: '*'
+    #    address: '*'
+    port: "*"
   #query_source_v6:
   #random_device:
   #recursing_file:
-  recursion: 'no'
+  recursion: "no"
   #recursive_clients:
   #request_ixfr:
   #resolver_query_timeout:
@@ -96,7 +96,7 @@ default_options:
   #transfer_format:
   #transfers_per_ns:
   #transfers_in:
-  transfer_source: '*'
+  transfer_source: "*"
   #transfer_source_v6:
   #transfers_out:
   #use_alt_transfer_source:

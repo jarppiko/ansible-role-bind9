@@ -1,23 +1,23 @@
-	masters {% if clause.masters_port is defined %}port {{ clause.masters_port }} {% endif %}{
-{% for master in clause.masters %}
-{% if master is string %}
-    {{ master }};
+	primaries {% if clause.primaries_port is defined %}port {{ clause.primaries_port }} {% endif %}{
+{% for primary in clause.primaries %}
+{% if primary is string %}
+    {{ primary }};
 {% else %}
-    {{ master.host }}{% if master.port is defined %} port {{ master.port }}{% endif %}{% if master.key is defined %} key {{ master.key }}{% endif %};
+    {{ primary.host }}{% if primary.port is defined %} port {{ primary.port }}{% endif %}{% if primary.key is defined %} key {{ primary.key }}{% endif %};
 {% endif %}
 {% endfor %}
 };
 {# slave zone
 ---
 clause:
-  masters_port: 53 # optional
-  masters: 192.168.0.53
+  primaries_port: 53 # optional
+  primaries: 192.168.0.53
 --- or
 clause:
-  masters_port: 53 # optional
-  masters:
+  primaries_port: 53 # optional
+  primaries:
     - host: 192.168.0.5
       port: 53 # optional
-      key: "key_master" # optional
+      key: "key_primary" # optional
     - host: 10.0.0.255
 #}

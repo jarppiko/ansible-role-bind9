@@ -72,15 +72,15 @@ zone "{{ my_name }}" {{ properties.class|default('') }} {
 {# statements for zone argss #}
   type {{ properties.type }};
 {#
-statements for master zones
+statements for primary zones
 #}
-{% if properties.type == 'master' %}
+{% if properties.type == 'primary' %}
 {% if properties.textfile is defined %}
   file "{{ bind_zones_dir }}/{{ properties.textfile.split('/')[-1] }}";
 {% else %}
   file "{{ bind_zones_dir }}/db.{{ my_name }}";
 {% endif %}
-  {% for statement in bind_clauses.zone.master -%}
+  {% for statement in bind_clauses.zone.primary -%}
     {% if properties[statement] is defined -%}
       {% if statement == 'also_notify' -%}
         {{ macro_statements.also_notify(properties.also_notify, (properties.also_notify_port|default('')))}}
@@ -99,8 +99,8 @@ statements for slave zones
   file "{{ bind_zones_dir }}/db.{{ my_name }}";
   {% for statement in bind_clauses.zone.slave -%}
     {% if properties[statement] is defined -%}
-      {% if statement == 'masters' -%}
-        {{ macro_statements.masters(properties.masters, (properties.masters_port|default('')))}}
+      {% if statement == 'primaries' -%}
+        {{ macro_statements.primaries(properties.primaries, (properties.primaries_port|default('')))}}
       {% else %}
         {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
       {%- endif %}

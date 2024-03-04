@@ -243,7 +243,7 @@ clause:
 {% endif %}
 {% endfilter %}
   };
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   allow_update: "acl_name"
@@ -272,7 +272,7 @@ clause:
 {% endfor %}
 {% endif %}
   };
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   also_notify:
@@ -641,7 +641,7 @@ clause:
 {# view, options
 ---
 clause:
-  empty_contact: "hostmaster.example.com"
+  empty_contact: "hostprimary.example.com"
 #}
 {% endmacro %}
 
@@ -809,39 +809,39 @@ clause:
 #}
 {% endmacro %}
 
-{% macro masterfile_format(args) %}
-  masterfile-format {{ args }};
-{# master slave zone, view, options
+{% macro primaryfile_format(args) %}
+  primaryfile-format {{ args }};
+{# primary slave zone, view, options
 ---
 clause:
-  masterfile_format: text # text | raw | map
-  # master zone default = text
+  primaryfile_format: text # text | raw | map
+  # primary zone default = text
   # slave zones default = raw
 #}
 {% endmacro %}
 
-{% macro masters(args, port='') %}
-	masters {% if port != '' %}port {{ port }} {% endif %}{
-{% for master in args %}
-{% if master is string %}
-    {{ master }};
+{% macro primaries(args, port='') %}
+	primaries {% if port != '' %}port {{ port }} {% endif %}{
+{% for primary in args %}
+{% if primary is string %}
+    {{ primary }};
 {% else %}
-    {{ master.host }}{% if master.port is defined %} port {{ master.port }}{% endif %}{% if master.key is defined %} key {{ master.key }}{% endif %};
+    {{ primary.host }}{% if primary.port is defined %} port {{ primary.port }}{% endif %}{% if primary.key is defined %} key {{ primary.key }}{% endif %};
 {% endif %}
 {% endfor %}
 };
 {# slave zone
 ---
 clause:
-  masters_port: 53 # optional
-  masters: 192.168.0.53
+  primaries_port: 53 # optional
+  primaries: 192.168.0.53
 --- or
 clause:
-  masters_port: 53 # optional
-  masters:
+  primaries_port: 53 # optional
+  primaries:
     - host: 192.168.0.5
       port: 53 # optional
-      key: "key_master" # optional
+      key: "key_primary" # optional
     - host: 10.0.0.255
 #}
 {% endmacro %}
@@ -929,7 +929,7 @@ clause:
 
 {% macro max_transfer_idle_out(args) %}
   max-transfer-idle-out {{ args }};
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   max_transfer_idle_out: 120
@@ -947,7 +947,7 @@ clause:
 
 {% macro max_transfer_time_out(args) %}
   max-transfer-time-out {{ args }};
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   max_transfer_time_out: 120
@@ -990,18 +990,18 @@ clause:
 #}
 {% endmacro %}
 
-{% macro multi_master(args) %}
-  multi-master {{ args }};
+{% macro multi_primary(args) %}
+  multi-primary {{ args }};
 {# slave zone, view, options
 ---
 clause:
-  multi_master: no # yes | no
+  multi_primary: no # yes | no
 #}
 {% endmacro %}
 
 {% macro notify(args) %}
   notify {{ args }};
-{# master slave zone, view, options
+{# primary slave zone, view, options
 ---
 clause:
   notify: yes # yes | no | explicit
@@ -1014,7 +1014,7 @@ clause:
 {% else %}
   notify-source {{ args }}{% if args.port is defined %} port {{args.port}}{% endif %};
 {% endif %}
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   notify_source: * # ip | *
@@ -1033,7 +1033,7 @@ clause:
 {% else %}
   notify-source-v6 {{ args.ipv6 }}{% if args.port is defined %} port {{args.port}}{% endif %};
 {% endif %}
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   notify_source_v6: fe80::1 # ipv6 | *
@@ -1328,7 +1328,7 @@ clause:
 
 {% macro transfer_format(args) %}
   transfer-format {{ args }};
-{# master zone, view, options
+{# primary zone, view, options
 ---
 clause:
   transfer_format: many-answers # one-answer | many-answers
