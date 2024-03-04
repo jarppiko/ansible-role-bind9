@@ -30,13 +30,13 @@ clause:
 {% endfor %}
 {% endif %}
   };
-{#  slave zone, view, options
+{#  secondary zone, view, options
 ---
 clause:
   allow_notify: "acl_name"
 --- or
 clause:
-  type: slave
+  type: secondary
   allow_notify:
     - "acl_name"
     - key key-name
@@ -291,7 +291,7 @@ clause:
 {% else %}
   alt-transfer-source {{ args.ip }}{% if args.port is defined %} port {{ args.port }} {% endif %};
 {% endif %}
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   alt_transfer_source: 8.8.8.8
@@ -310,7 +310,7 @@ clause:
 {% else %}
   alt-transfer-source-v6 {{ args.ipv6 }}{% if args.port is defined %} port {{args.port}}{% endif %};
 {% endif %}
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   alt_transfer_source_v6: fe80::1
@@ -811,12 +811,12 @@ clause:
 
 {% macro primaryfile_format(args) %}
   primaryfile-format {{ args }};
-{# primary slave zone, view, options
+{# primary secondary zone, view, options
 ---
 clause:
   primaryfile_format: text # text | raw | map
   # primary zone default = text
-  # slave zones default = raw
+  # secondary zones default = raw
 #}
 {% endmacro %}
 
@@ -830,7 +830,7 @@ clause:
 {% endif %}
 {% endfor %}
 };
-{# slave zone
+{# secondary zone
 ---
 clause:
   primaries_port: 53 # optional
@@ -893,7 +893,7 @@ clause:
 
 {% macro max_refresh_time(args) %}
   max-refresh-time {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   max_refresh_time: 3600
@@ -902,7 +902,7 @@ clause:
 
 {% macro max_retry_time(args) %}
   max-retry-time {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   max_retry_time: 3600
@@ -920,7 +920,7 @@ clause:
 
 {% macro max_transfer_idle_in(args) %}
   max-transfer-idle-in {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   max_transfer_idle_in: 60
@@ -938,7 +938,7 @@ clause:
 
 {% macro max_transfer_time_in(args) %}
   max-transfer-time-in {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   max_transfer_time_in: 120
@@ -974,7 +974,7 @@ clause:
 
 {% macro min_refresh_time(args) %}
   min-refresh-time {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   min_refresh_time: 500
@@ -983,7 +983,7 @@ clause:
 
 {% macro min_retry_time(args) %}
   min-retry-time {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   min_retry_time: 500
@@ -992,7 +992,7 @@ clause:
 
 {% macro multi_primary(args) %}
   multi-primary {{ args }};
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   multi_primary: no # yes | no
@@ -1001,7 +1001,7 @@ clause:
 
 {% macro notify(args) %}
   notify {{ args }};
-{# primary slave zone, view, options
+{# primary secondary zone, view, options
 ---
 clause:
   notify: yes # yes | no | explicit
@@ -1350,7 +1350,7 @@ clause:
 {% else %}
   transfer-source {{ args.ip }}{% if args.port is defined %} port {{args.port}}{% endif %};
 {% endif %}
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   transfer_source: 8.8.8.8
@@ -1369,7 +1369,7 @@ clause:
 {% else %}
   transfer-source-v6 {{ args }}{% if args.port is defined %} port {{args.port}}{% endif %};
 {% endif %}
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   transfer_source_v6: fe80::1

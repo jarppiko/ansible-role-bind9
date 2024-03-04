@@ -5,7 +5,7 @@
   transfer-source {{ clause.transfer_source.ip }}{% if clause.transfer_source.port is defined %} port clause.transfer_source.port{% endif %};
 {% endif %}
 {% endif %}
-{# slave zone, view, options
+{# secondary zone, view, options
 ---
 clause:
   transfer_source: 8.8.8.8

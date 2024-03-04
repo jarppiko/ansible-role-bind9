@@ -142,7 +142,7 @@ bind_clauses:
       - notify_source_v6
       - primaryfile_format
       - transfer_format
-    slave:
+    secondary:
       - primaries
       - primaryfile_format
       - transfer_source

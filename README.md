@@ -169,14 +169,14 @@ Each zone is declared as an element of the list named `zones`.
 A zone is a mapping where the zone name is its main key  and its statements are keys:value
 - `[statement]:value`
 - `type` is mandatory statements
-- `force_file` [boolean]: Tell ansible to rewrite the records database file. Useful if your zone is dynamically populated by DNS. - _false for slaves zones_ - _true for others_
+- `force_file` [boolean]: Tell ansible to rewrite the records database file. Useful if your zone is dynamically populated by DNS. - _false for secondary zones_ - _true for others_
 - Some zone types have their own mandatory statements
 
 > playbook.yml:
 ```yaml
 zones:
   example.com: # The domain's name
-    type: primary # Mandatory. The type of the zone : primary|slave|forward|stub
+    type: primary # Mandatory. The type of the zone : primary|secondary|forward|stub
     recursion: "no" # statement overriding global option "recursion" for this zone.
     ... # etc
 ```
@@ -252,8 +252,8 @@ None.
 ### Exemple configuration :
 - You own the zones example.tld, example.com and example.org
 - You have 2 name servers : dnserver1 (11.22.33.44) & dnserver2 (55.66.77.88)
-- dnserver1 is primary of example.tld and slave of example.com.
-- dnserver2 is primary of example.com and slave of example.tld
+- dnserver1 is primary of example.tld and secondary of example.com.
+- dnserver2 is primary of example.com and secondary of example.tld
 - example.tld is dynamically populated by a DHCP server
 
 ### dnserver1's playbook :
@@ -284,7 +284,7 @@ None.
                 dnserver1: 11.22.33.44
                 dnserver2: 55.66.77.88
         example.com:
-          type: slave
+          type: secondary
           primaries: '55.66.77.88'
       keys:
       - name: dhcp_updater
@@ -302,10 +302,10 @@ None.
         allow_transfer: '11.22.33.44'
       zones:
         example.com:
-          type: slave
+          type: secondary
           notify: '11.22.33.44'
         example.tld:
-         type: slave
+         type: secondary
          primaries: '11.22.33.44'
          ymlfile: example.com.yml
 ```

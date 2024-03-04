@@ -93,11 +93,11 @@ statements for primary zones
   {%- endfor %}
 {%- endif %}
 {#
-statements for slave zones
+statements for secondary zones
 #}
-{% if properties.type == 'slave' -%}
+{% if properties.type == 'secondary' -%}
   file "{{ bind_zones_dir }}/db.{{ my_name }}";
-  {% for statement in bind_clauses.zone.slave -%}
+  {% for statement in bind_clauses.zone.secondary -%}
     {% if properties[statement] is defined -%}
       {% if statement == 'primaries' -%}
         {{ macro_statements.primaries(properties.primaries, (properties.primaries_port|default('')))}}
