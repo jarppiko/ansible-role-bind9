@@ -1,7 +1,6 @@
 ---
 - name: Find named-checkzone
-  include_tasks:
-    named_checkzone: "{{ item }}"
+  register: named_checkzone
   with_first_found:
     - paths:
         - /usr/sbin
@@ -11,8 +10,7 @@
       skip: true
 
 - name: Find named-checkconf
-  include_tasks:
-    named_checkconf: "{{ item }}"
+  register: named_checkconf
   with_first_found:
     - paths:
         - /usr/sbin
