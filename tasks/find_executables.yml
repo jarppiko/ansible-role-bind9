@@ -4,8 +4,10 @@
     named_checkconf: "{{ item }}"
   with_first_found:
     files:
-      - /usr/sbin/named-checkconf
-      - /usr/bin/named-checkconf
+      - named-checkconf
+    paths:
+      - /usr/sbin
+      - /usr/bin
     # skip: false
 #  ignore_errors: true
 - name: Find named-checkzone
