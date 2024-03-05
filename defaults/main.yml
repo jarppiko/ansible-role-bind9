@@ -21,7 +21,7 @@ bind_config_default_zones: "yes"
 RFC1918: no
 
 # Executables
-named_checkzonf: ""
+named_checkconf: ""
 named_checkzone: ""
 
 # Zones files
