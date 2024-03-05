@@ -17,3 +17,11 @@
       - /usr/bin/named-checkzone
     skip: false
   # ignore_errors: true
+
+- name: Print named-checkconf
+  debug:
+    msg: "named-checkconf found: {{ named_checkconf }}"
+
+- name: Print named-checkzone
+  debug:
+    msg: "named-checkzone found: {{ named_checkzone }}"
