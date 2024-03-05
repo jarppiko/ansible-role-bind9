@@ -1,0 +1,28 @@
+---
+- name: Find named-checkzone
+  find:
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    patterns: "named-checkzone"
+    ## These options require Ansible Core 2.16
+    #    exact_mode: false
+    #    mode: "u=x"
+    register: named_checkzone_find
+
+- debug: named_checkzone=item.path
+  with_items: "{{ named_checkzone_find.files }}"
+
+- name: Find named-checkconf
+  find:
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    patterns: "named-checkconf"
+    ## These options require Ansible Core 2.16
+    #    exact_mode: false
+    #    mode: "u=x"
+    register: named_checkconf_find
+
+- debug: named_checkconf=item.path
+  with_items: "{{ named_checkconf_find.files }}"

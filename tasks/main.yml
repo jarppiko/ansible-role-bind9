@@ -1,4 +1,8 @@
 ---
+- name: Find executables
+  include_tasks: find_executables.yml
+  when: bind_pkg_state in ['present'] and not ansible_check_mode
+
   # install requirements
 - name: Make sure bind is installed and running
   include_tasks: install_bind.yml
@@ -8,12 +12,12 @@
   # configure named.conf.option
 - name: configure named.conf.options
   include_tasks: configure_options.yml
-  tags:  configure_options
+  tags: configure_options
 
   # configure named.conf.local
 - name: configure named.conf.local
   include_tasks: configure_local.yml
-  tags:  configure_local
+  tags: configure_local
 
   # generate/copy zones data
 - include_tasks: create_zone_db.yml
@@ -26,7 +30,6 @@
 - name: Clean the zone files folder
   include_tasks: remove_unmanaged_files.yml
   when: remove_unmanaged_files
-
 # - include: setup_host_dns.yml
-  # when: host_dns_srv == 'self'
-  # tags: setup_host_dns
+# when: host_dns_srv == 'self'
+# tags: setup_host_dns
