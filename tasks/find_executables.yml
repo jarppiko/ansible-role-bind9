@@ -6,7 +6,7 @@
     files:
       - /usr/sbin/named-checkconf
       - /usr/bin/named-checkconf
-    skip: false
+    # skip: false
 #  ignore_errors: true
 - name: Find named-checkzone
   set_fact:
@@ -15,13 +15,11 @@
     files:
       - /usr/sbin/named-checkzone
       - /usr/bin/named-checkzone
-    skip: false
+  #  skip: false
   # ignore_errors: true
 
-- name: Print named-checkconf
+- name: Executables found
   debug:
-    msg: "named-checkconf found: {{ named_checkconf }}"
-
-- name: Print named-checkzone
-  debug:
-    msg: "named-checkzone found: {{ named_checkzone }}"
+    msg:
+      - "named-checkconf found: {{ named_checkconf }}"
+      - "named-checkzone found: {{ named_checkzone }}"
