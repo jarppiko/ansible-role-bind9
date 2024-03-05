@@ -1,11 +1,13 @@
 ---
 # handlers file for bind9
 - name: restart bind
-  service: 
-      name: "bind9"
-      state: restarted
+  service:
+    name: "bind9"
+    state: restarted
+  when: not ansible_check_mode
 
 - name: reload bind
   service:
-      name: "bind9"
-      state: reloaded
+    name: "bind9"
+    state: reloaded
+  when: not ansible_check_mode
