@@ -1,6 +1,5 @@
 ---
 - name: Find named-checkzone
-  register: named_checkzone
   with_first_found:
     - paths:
         - /usr/sbin
@@ -8,9 +7,9 @@
       files:
         - named-checkzone
       skip: true
+  register: named_checkzone
 
 - name: Find named-checkconf
-  register: named_checkconf
   with_first_found:
     - paths:
         - /usr/sbin
@@ -18,3 +17,4 @@
       files:
         - named-checkconf
       skip: true
+  register: named_checkconf
