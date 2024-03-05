@@ -1,20 +1,20 @@
 ---
 - name: Find named-checkzone
   with_first_found:
-    - paths:
-        - /usr/sbin
-        - /usr/bin
-      files:
-        - named-checkzone
-      skip: true
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    files:
+      - named-checkzone
+    skip: true
   register: named_checkzone
 
 - name: Find named-checkconf
   with_first_found:
-    - paths:
-        - /usr/sbin
-        - /usr/bin
-      files:
-        - named-checkconf
-      skip: true
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    files:
+      - named-checkconf
+    skip: true
   register: named_checkconf
