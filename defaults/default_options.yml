@@ -74,9 +74,9 @@ default_options:
   #preferred_glue:
   #provide_ixfr:
   #querylog:
-  query_source:
-    #    address: '*'
-    port: "*"
+  # query_source:
+  # address: '*'
+  # port: "*"
   #query_source_v6:
   #random_device:
   #recursing_file:
