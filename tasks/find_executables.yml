@@ -22,9 +22,8 @@
         - /usr/bin
   loop_control:
     loop_var: executable
-
-- name: Executables found
-  debug:
-    msg:
-      - "named-checkconf found: {{ named_checkconf }}"
-      - "named-checkzone found: {{ named_checkzone }}"
+# - name: Executables found
+#   debug:
+#     msg:
+#       - "named-checkconf found: {{ named_checkconf }}"
+#       - "named-checkzone found: {{ named_checkzone }}"
