@@ -6,18 +6,24 @@
     paths:
       - /usr/sbin
       - /usr/bin
+  loop_control:
+    loop_var: executable
   set_fact:
-    named_checkconf: "{{ item }}"
+    named_checkconf: "{{ executable }}"
 
-    # skip: false
-#  ignore_errors: true
-- name: Find named-checkzone
+- name: Set named_conf
   set_fact:
-    named_checkzone: "{{ item }}"
+    named_checkconf: "{{ executable }}"
+
+- name: Find named-checkzone
   with_first_found:
     files:
       - /usr/sbin/named-checkzone
       - /usr/bin/named-checkzone
+  loop_control:
+    loop_var: executable
+  set_fact:
+    named_checkzone: "{{ executable }}"
   #  skip: false
   # ignore_errors: true
 

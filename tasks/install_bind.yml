@@ -22,6 +22,10 @@
     group: "{{ bind_group }}"
   tags: install_bind
 
+- name: Find executables
+  include_tasks: find_executables.yml
+  when: bind_pkg_state in ['present'] and not ansible_check_mode
+
 - name: Setup default zones
   copy:
     src: "{{ role_path }}/files/{{ item }}"
