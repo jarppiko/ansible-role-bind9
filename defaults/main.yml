@@ -20,6 +20,10 @@ bind_config_primary_zones: []
 bind_config_default_zones: "yes"
 RFC1918: no
 
+# Executables
+named_checkconf: ""
+named_checkzone: ""
+
 # Zones files
 bind_zones_dir: /var/lib/bind
 
