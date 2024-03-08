@@ -22,9 +22,6 @@
   tags: setup_zones
 
 - block:
-    - set_fact: # set default
-        full_zone: {}
-
     - name: "Loading zone content for {{ bind_zone.key }} from yaml file"
       include_vars:
         file: "{{ bind_zone.value.ymlfile }}"
