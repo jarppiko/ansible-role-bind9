@@ -20,7 +20,8 @@
   tags: configure_local
 
   # generate/copy zones data
-- include_tasks: create_zone_db.yml
+- name: Create zone files
+  include_tasks: create_zone_db.yml
   with_dict: "{{ zones }}"
   loop_control:
     loop_var: bind_zone
