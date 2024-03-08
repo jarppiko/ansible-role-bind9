@@ -22,10 +22,14 @@
   tags: setup_zones
 
 - block:
+    - set_fact: # set default
+      full_zone: {}
+
     - name: "Loading zone content for {{ bind_zone.key }} from yaml file"
       include_vars:
         file: "{{ bind_zone.value.ymlfile }}"
         name: my_records
+      when: bind_zone.value.ymlfile is defined
 
     - name: "Building records list..."
       set_fact:
@@ -42,7 +46,8 @@
         validate: "{{ named_checkzone }} {{ bind_zone.key }} %s"
         force: "{{ 'no' if full_zone.type == 'secondary' else (full_zone.force_file|default(omit)) }}"
       notify: reload bind
-  when: bind_zone.value.textfile is not defined and bind_zone.value.ymlfile is defined
+  # when: bind_zone.value.textfile is not defined and bind_zone.value.ymlfile is defined
+  when: bind_zone.value.textfile is not defined
   tags: setup_zones
 
 - set_fact: "list_zone_files={{ list_zone_files + [zone_filename] }}"
