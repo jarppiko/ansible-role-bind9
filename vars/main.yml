@@ -12,31 +12,32 @@ bind_records:
 bind_clauses:
   key:
   dnssec_policy:
-    - cdnskey
-    - cds_digest_types
-    - dnskey_ttl
-    - inline_signing
-    - keys:
-        - type
-        - key_directory
-        - key_store
-        - lifetime
-        - algorithm
-        - algorithm_value
-    - max_zone_ttl
-    - nsec3param:
-        - iterations
-        - optout
-        - salt_length
-    - parent_ds_tt
-    - parent_propagation_delay
-    - publish_safety
-    - purge_keys
-    - retire_safety
-    - signatures_refresh
-    - signatures_validity
-    - signatures_validity_dnskey
-    - zone-propagation_delay
+    params:
+      - cdnskey
+      - cds_digest_types
+      - dnskey_ttl
+      - inline_signing
+      - max_zone_ttl
+      - parent_ds_tt
+      - parent_propagation_delay
+      - publish_safety
+      - purge_keys
+      - retire_safety
+      - signatures_refresh
+      - signatures_validity
+      - signatures_validity_dnskey
+      - zone-propagation_delay
+    keys:
+      - type
+      - key_directory
+      - key_store
+      - lifetime
+      - algorithm
+      - algorithm_value
+    nsec3param:
+      - iterations
+      - optout
+      - salt_length
   options:
     operations:
       - port
