@@ -574,16 +574,6 @@ clause:
 #}
 {% endmacro %}
 
-{# This option has been removed 
-{% macro dnssec_enable(args) %}
-  dnssec-enable {{ args }};
-{# view, options
----
-clause:
-  dnssec_enable: no
-#}
-{% endmacro %}
-#}
 
 {% macro dnssec_policy(args) %}
   dnssec-policy "{{ args }}";
@@ -593,8 +583,6 @@ clause:
   dnssec_policy: "string"
 #}
 {% endmacro %}
-
-
 
 
 {% macro dnssec_validation(args) %}
