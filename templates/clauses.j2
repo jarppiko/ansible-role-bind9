@@ -40,13 +40,13 @@ cds_digest_types:
     {% set key_arg = arg['type'] -%}
     {% for key_opt in bind_clauses.dnssec_policy.keys[:-1] -%}
         {% if key_opt in arg -%}
-            {% set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt] -%}
+            {% set key_arg = key_arg ~ ' ' ~ key_opt.replace('_', '-') ~ ' ' ~ arg[key_opt] -%}
         {% endif %}
     {% endfor %}
     {% if 'algorithm_value' in arg -%}
-        {% set key_arg = key_arg + ' ' + arg['algorithm_value'] -%}
+        {% set key_arg = key_arg ~ ' ' ~ arg['algorithm_value'] -%}
     {% endif %}
-    {% set keys_arg = keys_args + key_arg + ';' -%}
+    {% set keys_arg = keys_args ~ key_arg ~ ';' -%}
   {% endfor %}
   keys { {{ keys_args }} };
 {# dnssec-policy
@@ -67,7 +67,7 @@ keys:
   {% set params = "" -%}
   {% for arg in bind_clauses.dnssec_policy.nsec3param -%}
     {% if arg in args -%}
-      {% set params = params + ' ' +  arg.replace('_', '-') + ' ' + args[arg] -%}
+      {% set params = params ~ ' ' ~  arg.replace('_', '-') ~ ' ' ~ args[arg] -%}
     {% endif %}
   {% endfor %}
   nsec3param {{ params }};
