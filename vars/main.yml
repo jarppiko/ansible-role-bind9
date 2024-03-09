@@ -157,7 +157,6 @@ bind_clauses:
       - max_journal_size
       - sig_validity_interval
       - update_policy
-      - inline_signing
       - use_alt_transfer_source
       - zone_statictics
     primary:
@@ -171,6 +170,7 @@ bind_clauses:
       - primaryfile_format
       - transfer_format
       - dnssec_policy
+      - inline_signing
     secondary:
       - primaries
       - primaryfile_format
@@ -188,6 +188,7 @@ bind_clauses:
       - notify
       - allow_notify
       - dnssec_policy
+      - inline_signing
     forward:
       - forward
       - forwarders
