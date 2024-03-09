@@ -33,18 +33,18 @@ cds_digest_types:
 
 {% macro keys(args) %}
   {% set keys_args = "" -%}
-  {% for key in args -%}  
-    {% if key['type'] is not defined -%}
+  {% for arg in args -%}  
+    {% if arg['type'] is not defined -%}
         {{ "dnssec_policy.keys[].type is not defined"/0 }}
     {% endif %}
-    {% set key_arg = key['type'] -%}
+    {% set key_arg = arg['type'] -%}
     {% for key_opt in bind_clauses.dnssec_policy.keys[:-1] -%}
-        {% if key_opt in key -%}
-            {% set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + key[key_opt] -%}
+        {% if key_opt in arg -%}
+            {% set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt] -%}
         {% endif %}
     {% endfor %}
-    {% if 'algorithm_value' in key -%}
-        {% set key_arg = key_arg + ' ' + key['algorithm_value'] -%}
+    {% if 'algorithm_value' in arg -%}
+        {% set key_arg = key_arg + ' ' + arg['algorithm_value'] -%}
     {% endif %}
     {% set keys_arg = keys_args + key_arg + ';' -%}
   {% endfor %}
@@ -65,9 +65,9 @@ keys:
 
 {% macro nsec3param(args) %}
   {% set params = "" -%}
-  {% for key in bind_clauses.dnssec_policy.nsec3param -%}
-    {% if key in args -%}
-      {% set params = params + ' ' +  key.replace('_', '-') + ' ' + args[key] -%}
+  {% for arg in bind_clauses.dnssec_policy.nsec3param -%}
+    {% if arg in args -%}
+      {% set params = params + ' ' +  arg.replace('_', '-') + ' ' + args[arg] -%}
     {% endif %}
   {% endfor %}
   nsec3param {{ params }};
@@ -84,15 +84,15 @@ nsec3param:
 {% macro dnssec_policy(dnssec_policy_args) -%}
 {% for statement in bind_clauses.dnssec_policy -%}
   {% if dnssec_policy_args[statement] is defined -%}
-    {% if statement == 'cds_digest_types' -%}
-      {{ cds_digest_types(dnssec_policy_args[statement]) | indent(width=2, first=True)}}
-    {% elif statement == 'nsec3param' -%}
-      {{ nsec3param(dnssec_policy_args[statement]) | indent(width=2, first=True)}}
-    {% elif statement == 'keys' -%}
-      {{ keys(dnssec_policy_args[statement]) | indent(width=2, first=True)}}    
+    {% if statement == 'cds_digest_types' %}
+      {{ cds_digest_types(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
+    {% elif statement == 'nsec3param' %}
+      {{ nsec3param(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
+    {% elif statement == 'keys' %}
+      {{ keys(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
     {% else %}
       {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
-    {%- endif %}
+    {% endif %}
   {%- endif %}
 {%- endfor %}
 {%- endmacro %}
