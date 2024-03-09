@@ -42,7 +42,7 @@ cds_digest_types:
     {% set key_arg = key['type'] -%}
     {% for key_opt in bind_clauses.dnssec_policy.keys[:-1] -%}
         {% if key_opt in key -%}
-            {% set key_arg = keys_arg + ' ' + {{ key_opt|replace('_', '-') }} + key[key_opt] -%}
+            {% set key_arg = key_arg + ' ' + {{ key_opt|replace('_', '-') }} + ' ' + key[key_opt] -%}
         {% endif %}
     {% endfor %}
     {% if 'algorithm_value' in key -%}
