@@ -17,9 +17,9 @@ keys:
 #}
 {%- endmacro %}
 
-{% macro cds_digest_types(types) %}
-{% if len(types) > 0 -%}
- cds-digest-types { {{ types|join(';')}}; };
+{% macro cds_digest_types(args) %}
+{% if length(args) > 0 -%}
+  cds-digest-types { {{ args|join(';') }}; };
 {% endif %}
 {# dnssec-policy
 ---
@@ -28,9 +28,7 @@ cds_digest_types:
   - string
   - ...    
 #}
-
 {%- endmacro %}
-
 
 
 {% macro keys(args) %}
@@ -62,7 +60,7 @@ keys:
     algorithm_value: int
   - type: ...
 #}
-{% endmacro %}
+{%- endmacro %}
 
 
 {% macro nsec3param(args) %}
@@ -87,9 +85,9 @@ nsec3param:
 {% for statement in bind_clauses.dnssec_policy -%}
   {% if dnssec_policy_args[statement] is defined -%}
     {% if statement in [ 'cds_digest_types', 'nsec3param', 'keys'] -%}
-    {{ statement(dnssec_policy_args[statement]) | indent(width=2, first=True)}}
+      {{ statement(dnssec_policy_args[statement]) | indent(width=2, first=True)}}
     {% else %}
-    {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
+      {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
     {%- endif %}
   {%- endif %}
 {%- endfor %}
