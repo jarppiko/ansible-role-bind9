@@ -18,7 +18,7 @@ keys:
 {%- endmacro %}
 
 {% macro cds_digest_types(args) %}
-{% if len(args) > 0 -%}
+{% if args|length > 0 -%}
   cds-digest-types { {{ args|join(';') }}; };
 {% endif %}
 {# dnssec-policy
