@@ -5,12 +5,24 @@
 include "/etc/bind/zones.rfc1918";
 {% endif %}
 
+// DNSSEC policies
+{% for policy_name, policy_args in dnssec_policies.items -%}
+dnssec-policy "{{ policy_name }}" {
+    {{ clauses.dnssec_policy(policy_args)}}
+};
+
+{%- endfor %}
+
+
+// Keys
 {% if keys is defined -%}
   {% for key in keys -%}
     {{ clauses.key(key.name, (key.algorithm|default(none)), (key.secret|default(none)))}}
   {%- endfor %}
 {%- endif %}
 
+
+// Zones
 {% for zone in zones %}
 {{ clauses.zone(zone ,zones[zone])}}
 {% endfor %}
