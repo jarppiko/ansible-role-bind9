@@ -80,7 +80,7 @@ default_options:
   #query_source_v6:
   #random_device:
   #recursing_file:
-  recursion: "no"
+  # recursion: "no"
   #recursive_clients:
   #request_ixfr:
   #resolver_query_timeout:
@@ -100,5 +100,5 @@ default_options:
   #transfer_source_v6:
   #transfers_out:
   #use_alt_transfer_source:
-  version: "get lost!"
+  version: null
   #zone_statistics:
