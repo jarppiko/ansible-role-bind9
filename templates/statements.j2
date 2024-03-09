@@ -725,6 +725,17 @@ clause:
 #}
 {% endmacro %}
 
+
+{% macro inline_signing(args) %}
+  inline-signing {{ args }};
+{# options
+---
+clause:
+  inline_signing: "yes" | "no"
+#}
+{% endmacro %}
+
+
 {% macro interface_interval(args) %}
   interface-interval {{ args }};
 {# options
