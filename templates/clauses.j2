@@ -63,7 +63,7 @@ keys:
   {% set params = "" -%}
   {% for arg in bind_clauses.dnssec_policy.nsec3param -%}
     {% if arg in args -%}
-      {% set params = params + ' ' +  arg.replace('_', '-') + ' ' + args[arg]|string() -%}
+      {% set params = params + ' ' +  arg|replace('_', '-') + ' ' + args[arg]|string() -%}
     {% endif %}
   {% endfor %}
   nsec3param {{ params }};
