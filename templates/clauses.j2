@@ -30,7 +30,7 @@ cds_digest_types:
 #}
 {%- endmacro %}
 
-{#
+
 {% macro dnssec_policy_keys(args) %}
   {% set keys_args = "" -%}
   {% for arg in args -%}  
@@ -38,8 +38,8 @@ cds_digest_types:
         {{ "dnssec_policy.keys[].type is not defined"/0 }}
     {% endif %}
     {% set key_arg = arg['type'] -%}
-    {% for key_opt in bind_clauses.dnssec_policy.keys[:-1] -%}
-        {% if key_opt in arg -%}
+    {% for key_opt in bind_clauses.dnssec_policy.keys -%}
+        {% if key_opt != 'algorithm_value' and key_opt in arg -%}
             {% set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt]|string() -%}
         {% endif %}
     {% endfor %}
@@ -49,7 +49,6 @@ cds_digest_types:
     {% set keys_arg = keys_args + key_arg + ';' -%}
   {% endfor %}
   keys { {{ keys_args }} };
-#}
 {# dnssec-policy
 ---
 keys:
@@ -61,9 +60,7 @@ keys:
     algorithm_value: int
   - type: ...
 #}
-{#
 {%- endmacro %}
-#}
 
 {% macro nsec3param(args) %}
   {% set params = "" -%}
@@ -96,11 +93,9 @@ nsec3param:
 {% if 'nsec3param' in dnssec_policy_args -%}
   {{ nsec3param(dnssec_policy_args['nsec3param']) | indent(width=2, first=True) }}
 {%- endif %}
-{#
 {% if 'keys' in dnssec_policy_args -%}
   {{ dnssec_policy_keys(dnssec_policy_args['keys']) | indent(width=2, first=True) }}
 {%- endif %}
-#}
 {%- endmacro %}
 {# top-level
 ---
