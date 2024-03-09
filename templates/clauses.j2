@@ -17,6 +17,22 @@ keys:
 #}
 {%- endmacro %}
 
+{% macro cds_digest_types(types) %}
+{% if len(types) > 0 -%}
+ cds-digest-types { {{ types|join(';')}}; };
+{% endif %}
+{# dnssec-policy
+---
+cds_digest_types:
+  - string
+  - string
+  - ...    
+#}
+
+{%- endmacro %}
+
+
+
 {% macro keys(args) %}
   {% set keys_args = "" -%}
   {% for key in args -%}  
@@ -70,7 +86,7 @@ nsec3param:
 {% macro dnssec_policy(dnssec_policy_args) -%}
 {% for statement in bind_clauses.dnssec_policy -%}
   {% if dnssec_policy_args[statement] is defined -%}
-    {% if statement == 'nsec3param'  or statement == 'keys' -%}
+    {% if statement in [ 'cds_digest_types', 'nsec3param', 'keys'] -%}
     {{ statement(dnssec_policy_args[statement]) | indent(width=2, first=True)}}
     {% else %}
     {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
