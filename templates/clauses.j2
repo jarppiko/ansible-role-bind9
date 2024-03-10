@@ -91,7 +91,7 @@ nsec3param:
   {{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
 {% if 'keys' in dnssec_policy_args -%}
-  {{ dnssec_policy_keys(dnssec_policy_args['keys']) | indent(width=2, first=True) }}
+  {{ dnssec_policy_keys(dnssec_policy_args['keys']) }}
 {%- endif %}
 {%- endmacro %}
 {# top-level
