@@ -137,7 +137,6 @@ bind_clauses:
       - disable_ds_digests
       # - dnssec_enable
       - dnssec_validation
-      - auto_dnssec
       - dnssec_policy
       - max_rsa_exponent_size
       - random_device
