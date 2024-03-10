@@ -60,13 +60,14 @@ keys:
 {%- endmacro %}
 
 {% macro nsec3param(args) %}
-  {% set params = "" -%}
-  {% for arg in bind_clauses.dnssec_policy.nsec3param -%}
-    {% if arg in args -%}
-      {% set params = params + ' ' +  arg|replace('_', '-') + ' ' + args[arg]|string() -%}
-    {% endif %}
-  {% endfor %}
-  nsec3param {{ params }};
+  {% set params = [] -%}
+  {% for statement in bind_clauses.dnssec_policy.nsec3param -%}
+    {% if statement in args -%}
+      {% set params.append(statement|replace('_', '-')) %}
+      {% set params.append(args[statement]|string()) %}
+    {%- endif %}
+  {%- endfor %}
+  nsec3param {{ params|join(' ') }};
 {# dnssec-policy
 ---
 nsec3param:
@@ -84,7 +85,7 @@ nsec3param:
       {{ cds_digest_types(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
     {%- else %}
       {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
-    {% endif %}
+    {%- endif %}
   {%- endif %}
 {%- endfor %}
 {% if 'nsec3param' in dnssec_policy_args -%}
