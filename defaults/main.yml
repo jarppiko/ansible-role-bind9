@@ -16,6 +16,7 @@ bind_service_enabled: yes
 
 # Configs
 bind_configs_dir: /etc/bind
+bind_keys_dir: /var/bind/keys
 bind_config_primary_zones: []
 bind_config_default_zones: "yes"
 RFC1918: no

@@ -22,6 +22,17 @@
     group: "{{ bind_group }}"
   tags: install_bind
 
+- name: Create folder for DNSSEC keys
+  debug:
+    msg: "bind_keys_dir: {{ bind_keys_dir }}"
+  # file:
+  #   path: "{{ bind_keys_dir }}"
+  #   state: directory
+  #   owner: root
+  #   group: "{{ bind_group }}"
+  #   chmod: 0770
+  tags: install_bind
+
 - name: Find executables
   include_tasks: find_executables.yml
   when: bind_pkg_state in ['present'] and not ansible_check_mode
