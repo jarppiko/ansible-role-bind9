@@ -83,9 +83,9 @@ nsec3param:
   {% if dnssec_policy_args[statement] is defined -%}
     {% if statement == 'cds_digest_types' %}
       {{ cds_digest_types(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
-    {%- else %}
+    {% else %}
       {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
-    {%- endif %}
+    {% endif %}
   {% endif %}
 {% endfor %}
 {%- if 'nsec3param' in dnssec_policy_args -%}
