@@ -332,6 +332,15 @@ clause:
 #}
 {% endmacro %}
 
+{% macro auto_dnssec(args) %}
+  auto-dnssec {{ args }};
+{# options
+---
+clause:
+  auto_dnssec: "string"
+#}
+{% endmacro %}
+
 {% macro avoid_v4_udp_ports(args) %}
   avoid-v4-udp-ports {
 {% for port in args %}
