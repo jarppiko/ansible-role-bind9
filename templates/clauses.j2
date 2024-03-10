@@ -87,7 +87,7 @@ nsec3param:
       {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
     {%- endif %}
   {% endif %}
-{%- endfor %}
+{% endfor %}
 {%- if 'nsec3param' in dnssec_policy_args -%}
   {{ nsec3param(dnssec_policy_args['nsec3param']) | indent(width=2, first=True) }}
 {%- endif -%}
