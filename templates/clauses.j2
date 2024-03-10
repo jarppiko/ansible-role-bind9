@@ -79,15 +79,15 @@ nsec3param:
 
 
 {% macro dnssec_policy(dnssec_policy_args) -%}
-{% for statement in bind_clauses.dnssec_policy.params %}
-  {%- if dnssec_policy_args[statement] is defined -%}
+{% for statement in bind_clauses.dnssec_policy.params -%}
+  {% if dnssec_policy_args[statement] is defined %}
     {% if statement == 'cds_digest_types' %}
 {{ cds_digest_types(dnssec_policy_args[statement]) }}
     {% else %}
 {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
     {% endif %}
   {% endif %}
-{% endfor %}
+{%- endfor %}
 {%- if 'nsec3param' in dnssec_policy_args -%}
 {{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
