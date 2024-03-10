@@ -89,7 +89,9 @@ nsec3param:
   {%- endif -%}
 {%- endfor %}
 {%- if 'nsec3param' in dnssec_policy_args -%}
+// nsec3param
 {{ nsec3param(dnssec_policy_args['nsec3param']) }}
+// nsec3param
 {%- endif -%}
 {#
 {% if 'keys' in dnssec_policy_args -%}
