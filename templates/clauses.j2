@@ -67,7 +67,7 @@ keys:
       {{ params.append(args[statement]|string()) }}
     {%- endif -%}
   {%- endfor -%}
-  nsec3param {{ params|join(' ') }};
+nsec3param {{ params|join(' ') }};
 {# dnssec-policy
 ---
 nsec3param:
@@ -82,14 +82,14 @@ nsec3param:
 {% for statement in bind_clauses.dnssec_policy.params %}
   {%- if dnssec_policy_args[statement] is defined -%}
     {% if statement == 'cds_digest_types' %}
-  {{ cds_digest_types(dnssec_policy_args[statement]) }}
+{{ cds_digest_types(dnssec_policy_args[statement]) }}
     {% else %}
-  {{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
+{{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
     {% endif %}
   {% endif %}
 {% endfor %}
 {%- if 'nsec3param' in dnssec_policy_args -%}
-  {{ nsec3param(dnssec_policy_args['nsec3param']) | indent(width=2, first=True) }}
+{{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
 {#
 {% if 'keys' in dnssec_policy_args -%}
