@@ -6,6 +6,6 @@
     owner: "{{ bind_user }}"
     group: "{{ bind_group }}"
     mode: 0644
-    # validate: "{{ named_checkconf }} %s"
+    validate: "{{ named_checkconf }} %s"
   notify: reload bind
   tags: configure_local
