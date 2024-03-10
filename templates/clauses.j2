@@ -31,11 +31,11 @@ cds_digest_types:
 {%- endmacro %}
 
 
-{%- macro dnssec_policykeys(args) -%}
+{%- macro dnssec_policy_keys(args) -%}
   {%- set ns = namespace(keys=[], key=[]) -%}
   {%- for key in args -%}
     {%- set ns.key = [] -%}
-    {%- for key_opt in bind_clauses.dnssec_policy.keys -%}
+    {%- for key_opt in bind_clauses.dnssec_policy['keys'] -%}
         {#
         {%- if key_opt != 'algorithm_value' and key_opt in key -%}
         {{ ns.key.extend([key_opt.replace('_', '-'), key[key_opt]|string()]) }}
@@ -94,7 +94,7 @@ nsec3param:
   {{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
 {% if 'keys' in dnssec_policy_args -%}
-  {{ dnssec_policykeys(dnssec_policy_args['keys']) }}
+  {{ dnssec_policy_keys(dnssec_policy_args['keys']) }}
 {%- endif %}
 {%- endmacro %}
 {# top-level
