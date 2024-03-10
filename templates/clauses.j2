@@ -36,18 +36,16 @@ cds_digest_types:
   {%- for key in args -%}
     {%- set ns.key = [] -%}
     {%- for key_opt in bind_clauses.dnssec_policy['keys'] -%}
-        {#
         {%- if key_opt != 'algorithm_value' and key_opt in key -%}
         {{ ns.key.extend([key_opt.replace('_', '-'), key[key_opt]|string()]) }}
         {%- endif -%}
-        #}
         {{ ns.key.append("Test")}}
     {%- endfor -%}
     {%- if 'algorithm_value' in key -%}
         {{ ns.key.append(key['algorithm_value']|string()) }}
     {%- endif -%} 
     {{ ns.keys.append( ns.key|join(' ')) }} 
-  {%- endfor -%}
+  {%- endfor %}
 keys { {{ ns.keys|join(';') }}; };
 {# dnssec-policy
 ---
