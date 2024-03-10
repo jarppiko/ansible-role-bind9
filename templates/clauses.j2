@@ -79,7 +79,7 @@ nsec3param:
 
 
 {% macro dnssec_policy(dnssec_policy_args) -%}
-{% for statement in bind_clauses.dnssec_policy.params -%}
+{% for statement in bind_clauses.dnssec_policy.params %}
   {% if dnssec_policy_args[statement] is defined -%}
     {% if statement == 'cds_digest_types' %}
       {{ cds_digest_types(dnssec_policy_args[statement]) | indent(width=2, first=True) }}
