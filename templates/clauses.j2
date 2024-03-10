@@ -44,8 +44,8 @@ cds_digest_types:
         {{ ns.key.append(statement['algorithm_value']|string()) }}
     {%- endif -%}
     {{ ns.keys.append( ns.key|join(' ')) }} 
-  {%- endfor %}
-  keys { {{ ns.keys|join(';') }}; };
+  {%- endfor -%}
+keys { {{ ns.keys|join(';') }}; };
 {# dnssec-policy
 ---
 keys:
@@ -90,11 +90,9 @@ nsec3param:
 {%- if 'nsec3param' in dnssec_policy_args -%}
   {{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
-{#
 {% if 'keys' in dnssec_policy_args -%}
   {{ dnssec_policy_keys(dnssec_policy_args['keys']) | indent(width=2, first=True) }}
 {%- endif %}
-#}
 {%- endmacro %}
 {# top-level
 ---
