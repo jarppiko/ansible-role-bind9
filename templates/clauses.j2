@@ -46,7 +46,7 @@ cds_digest_types:
     {{ ns.keys.append( ns.key|join(' ')) }} 
   {%- endfor %}
   keys { 
-    {{ ns.keys|join(";\n") }}; 
+    {{ ns.keys|join(";\n    ") }}; 
   };
 {# dnssec-policy
 ---
