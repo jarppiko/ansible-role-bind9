@@ -31,7 +31,7 @@ cds_digest_types:
 {%- endmacro %}
 
 
-{%- macro keys(args) -%}
+{%- macro dnssec_policykeys(args) -%}
   {%- set ns = namespace(keys=[], key=[]) -%}
   {%- for key in args -%}
     {%- set ns.key = [] -%}
@@ -94,7 +94,7 @@ nsec3param:
   {{ nsec3param(dnssec_policy_args['nsec3param']) }}
 {%- endif -%}
 {% if 'keys' in dnssec_policy_args -%}
-  {{ keys(dnssec_policy_args['keys']) }}
+  {{ dnssec_policykeys(dnssec_policy_args['keys']) }}
 {%- endif %}
 {%- endmacro %}
 {# top-level
