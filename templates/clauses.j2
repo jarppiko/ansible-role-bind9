@@ -59,14 +59,14 @@ keys:
 #}
 {%- endmacro %}
 
-{% macro nsec3param(args) %}
+{%- macro nsec3param(args) -%}
   {% set params = [] -%}
-  {% for statement in bind_clauses.dnssec_policy.nsec3param -%}
+  {%- for statement in bind_clauses.dnssec_policy.nsec3param -%}
     {% if statement in args -%}
       {{ params.append(statement|replace('_', '-')) }}
       {{ params.append(args[statement]|string()) }}
     {%- endif %}
-  {%- endfor %}
+  {%- endfor -%}
   nsec3param {{ params|join(' ') }};
 {# dnssec-policy
 ---
@@ -75,7 +75,7 @@ nsec3param:
   optout: "yes" | "no"
   salt_length: int  
 #}
-{% endmacro %}
+{%- endmacro -%}
 
 
 {% macro dnssec_policy(dnssec_policy_args) -%}
@@ -88,7 +88,7 @@ nsec3param:
     {%- endif %}
   {%- endif %}
 {%- endfor %}
-{% if 'nsec3param' in dnssec_policy_args -%}
+{%- if 'nsec3param' in dnssec_policy_args -%}
   {{ nsec3param(dnssec_policy_args['nsec3param']) | indent(width=2, first=True) }}
 {%- endif %}
 {#
