@@ -576,7 +576,7 @@ clause:
 
 
 {% macro dnssec_policy(args) %}
-  dnssec-policy "{{ args }}";
+  dnssec-policy {{ args }};
 {# options, view, zone
 ---
 clause:
