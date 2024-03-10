@@ -32,20 +32,20 @@ cds_digest_types:
 
 
 {%- macro dnssec_policy_keys(args) -%}
-  {%- set keys_args = "" -%}
-  {%- for arg in args -%}
-    {%- set key_arg = "" -%}
+  {%- set ns = namespace(keys=[], key=[]) -%}
+  {%- for statement in args -%}
+    {%- set ns.key = [] -%}
     {%- for key_opt in bind_clauses.dnssec_policy.keys -%}
-        {% if key_opt != 'algorithm_value' and key_opt in arg -%}
-            {%- set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt]|string() -%}
-        {%- endif %}
-    {%- endfor %}
-    {%- if 'algorithm_value' in arg -%}
-        {%- set key_arg = key_arg + ' ' + arg['algorithm_value']|string() -%}
+        {%- if key_opt != 'algorithm_value' and key_opt in statement -%}
+        {{ ns.key.extend([key_opt.replace('_', '-'), statement[key_opt]|string()]) }}
+        {%- endif -%}
+    {%- endfor -%}
+    {%- if 'algorithm_value' in statement -%}
+        {{ ns.key.append(statement['algorithm_value']|string()) }}
     {%- endif -%}
-    {%- set keys_arg = keys_args + key_arg + ';' -%}
+    {{ ns.keys.append( ns.key|join(' ')) }} 
   {%- endfor %}
-  keys { {{ keys_args }} };
+  keys { {{ ns.keys|join(';') }}; };
 {# dnssec-policy
 ---
 keys:
