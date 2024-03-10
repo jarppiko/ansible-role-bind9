@@ -40,7 +40,7 @@
         mode: 0644
         validate: "{{ named_checkzone }} {{ bind_zone.key }} %s"
         force: "{{ 'no' if full_zone.type == 'secondary' else (full_zone.force_file|default(omit)) }}"
-      notify: reload bind
+      notify: restart bind
   # when: bind_zone.value.textfile is not defined and bind_zone.value.ymlfile is defined
   when: bind_zone.value.textfile is not defined
   tags: setup_zones
