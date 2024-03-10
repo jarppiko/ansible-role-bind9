@@ -28,7 +28,7 @@
     state: directory
     owner: root
     group: "{{ bind_group }}"
-    chmod: 0770
+    mode: 0770
   tags: install_bind
 
 - name: Find executables
