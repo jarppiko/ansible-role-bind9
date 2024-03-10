@@ -11,6 +11,33 @@ bind_records:
   - TXT
 bind_clauses:
   key:
+  dnssec_policy:
+    params:
+      - cdnskey
+      - cds_digest_types
+      - dnskey_ttl
+      - inline_signing
+      - max_zone_ttl
+      - parent_ds_tt
+      - parent_propagation_delay
+      - publish_safety
+      - purge_keys
+      - retire_safety
+      - signatures_refresh
+      - signatures_validity
+      - signatures_validity_dnskey
+      - zone-propagation_delay
+    keys:
+      - type
+      - key_directory
+      - key_store
+      - lifetime
+      - algorithm
+      - algorithm_value
+    nsec3param:
+      - iterations
+      - optout
+      - salt_length
   options:
     operations:
       - port
@@ -108,8 +135,9 @@ bind_clauses:
     security:
       - disable_algorithms
       - disable_ds_digests
-      - dnssec_enable
+      # - dnssec_enable
       - dnssec_validation
+      - dnssec_policy
       - max_rsa_exponent_size
       - random_device
       - sig_validity_interval
@@ -142,6 +170,8 @@ bind_clauses:
       - notify_source_v6
       - primaryfile_format
       - transfer_format
+      - dnssec_policy
+      - inline_signing
     secondary:
       - primaries
       - primaryfile_format
@@ -158,6 +188,8 @@ bind_clauses:
       - multi_primary
       - notify
       - allow_notify
+      - dnssec_policy
+      - inline_signing
     forward:
       - forward
       - forwarders

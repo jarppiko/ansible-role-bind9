@@ -17,49 +17,136 @@ keys:
 #}
 {%- endmacro %}
 
+{% macro cds_digest_types(args) %}
+{% if args|length > 0 -%}
+cds-digest-types { {{ args|join(';') }}; };
+{% endif %}
+{# dnssec-policy
+---
+cds_digest_types:
+  - string
+  - string
+  - ...    
+#}
+{%- endmacro %}
+
+
+{%- macro dnssec_policy_keys(args) -%}
+  {%- set ns = namespace(keys=[], key=[]) -%}
+  {%- for key in args -%}
+    {%- set ns.key = [ key['type'] ] -%}
+    {%- for key_opt in bind_clauses.dnssec_policy['keys'] -%}
+        {%- if key_opt not in [ 'type', 'algorithm_value'] and key_opt in key -%}
+        {{ ns.key.extend([key_opt.replace('_', '-'), key[key_opt]|string()]) }}
+        {%- endif -%}
+    {%- endfor -%}
+    {%- if 'algorithm_value' in key -%}
+        {{ ns.key.append(key['algorithm_value']|string()) }}
+    {%- endif -%} 
+    {{ ns.keys.append( ns.key|join(' ')) }} 
+  {%- endfor %}
+  keys { 
+    {{ ns.keys|join(";\n    ") }}; 
+  };
+{# dnssec-policy
+---
+keys:
+  - type: csk | ksk | zsk
+    key_directory: /some/path/
+    key_store: string
+    lifetime: value
+    algorithm: string
+    algorithm_value: int
+  - type: ...
+#}
+{%- endmacro -%}
+
+{%- macro nsec3param(args) -%}
+  {%- set params = [] -%}
+  {%- for statement in bind_clauses.dnssec_policy.nsec3param -%}
+    {%- if statement in args -%}
+{{ params.append(statement|replace('_', '-')) }}{{ params.append(args[statement]|string()) }}
+    {%- endif -%}
+  {%- endfor -%}
+nsec3param {{ params|join(' ') }};
+{# dnssec-policy
+---
+nsec3param:
+  iterations: int
+  optout: "yes" | "no"
+  salt_length: int  
+#}
+{%- endmacro -%}
+
+
+{% macro dnssec_policy(dnssec_policy_args) -%}
+{% for statement in bind_clauses.dnssec_policy.params -%}
+  {%- if dnssec_policy_args[statement] is defined -%}
+    {% if statement == 'cds_digest_types' -%}
+{{ cds_digest_types(dnssec_policy_args[statement]) }}
+    {% else -%}
+{{ statement|replace('_', '-') }} {{ dnssec_policy_args[statement] }};
+    {% endif %}
+  {%- endif -%}
+{%- endfor %}
+{%- if 'nsec3param' in dnssec_policy_args -%}
+  {{ nsec3param(dnssec_policy_args['nsec3param']) }}
+{%- endif -%}
+{% if 'keys' in dnssec_policy_args -%}
+  {{ dnssec_policy_keys(dnssec_policy_args['keys']) }}
+{%- endif %}
+{%- endmacro %}
+{# top-level
+---
+dnssec_policies:
+  iterations: int
+  optout: "yes" | "no"
+  salt_length: int  
+#}
+
 
 {% macro options(options_args) -%}
 options {
 // Operations statements
 {% for statement in bind_clauses.options.operations -%}
   {% if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
-{{ macro_statements.version(options_args.version) | indent(width=2, first=True)}}
+{{ macro_statements.version(options_args.version) | indent(width=2, first=True) }}
 
 // transfers statements
 {% for statement in bind_clauses.options.transfers -%}
   {%- if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif -%}
 {%- endfor %}
 
 // Zone statements
 {% for statement in bind_clauses.options.zones -%}
   {% if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
 
 // queries statements
 {% for statement in bind_clauses.options.queries -%}
   {% if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
 
 // Security statements
 {% for statement in bind_clauses.options.security -%}
   {% if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
 
 // Periodic statements
 {% for statement in bind_clauses.options.periodics -%}
   {% if options_args[statement] is defined -%}
-    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](options_args[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
 
@@ -85,9 +172,9 @@ statements for primary zones
       {% if statement == 'also_notify' -%}
         {{ macro_statements.also_notify(properties.also_notify, (properties.also_notify_port|default('')))}}
       {%- elif statement == 'allow_update' and properties.update_policy is not defined -%}
-        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
       {%- else -%}
-        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
       {%- endif %}
     {%- endif %}
   {%- endfor %}
@@ -100,9 +187,9 @@ statements for secondary zones
   {% for statement in bind_clauses.zone.secondary -%}
     {% if properties[statement] is defined -%}
       {% if statement == 'primaries' -%}
-        {{ macro_statements.primaries(properties.primaries, (properties.primaries_port|default('')))}}
+        {{ macro_statements.primaries(properties.primaries, (properties.primaries_port|default(''))) }}
       {% else %}
-        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+        {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
       {%- endif %}
     {%- endif %}
   {%- endfor %}
@@ -113,7 +200,7 @@ statements for forward zones
 {% if properties.type == 'forward' -%}
   {% for statement in bind_clauses.zone.forward -%}
     {% if properties[statement] is defined -%}
-      {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+      {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
     {%- endif %}
   {%- endfor %}
 {%- endif %}
@@ -123,7 +210,7 @@ statements for static-stub zones
 {% if properties.type == 'static_stub' -%}
   {% for statement in bind_clauses.zone.static_stub -%}
     {% if properties[statement] is defined -%}
-      {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+      {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
     {%- endif %}
   {%- endfor %}
 {%- endif %}
@@ -132,7 +219,7 @@ common statements
 #}
 {% for statement in bind_clauses.zone.common -%}
   {% if properties[statement] is defined -%}
-    {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True)}}
+    {{ macro_statements[statement](properties[statement]) | indent(width=2, first=True) }}
   {%- endif %}
 {%- endfor %}
 };

@@ -15,7 +15,6 @@
         owner: "{{ bind_user }}"
         group: "{{ bind_group }}"
         mode: 0644
-        # validate: "/usr/sbin/named-checkzone {{ bind_zone.key }} %s"
         validate: "{{ named_checkzone }} {{ bind_zone.key }} %s"
       notify: reload bind
   when: bind_zone.value.textfile is defined
@@ -39,7 +38,6 @@
         owner: "{{ bind_user }}"
         group: "{{ bind_group }}"
         mode: 0644
-        # validate: "/usr/sbin/named-checkzone {{ bind_zone.key }} %s"
         validate: "{{ named_checkzone }} {{ bind_zone.key }} %s"
         force: "{{ 'no' if full_zone.type == 'secondary' else (full_zone.force_file|default(omit)) }}"
       notify: reload bind

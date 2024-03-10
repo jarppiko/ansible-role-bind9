@@ -574,14 +574,16 @@ clause:
 #}
 {% endmacro %}
 
-{% macro dnssec_enable(args) %}
-  dnssec-enable {{ args }};
-{# view, options
+
+{% macro dnssec_policy(args) %}
+  dnssec-policy {{ args }};
+{# options, view, zone
 ---
 clause:
-  dnssec_enable: no
+  dnssec_policy: "string"
 #}
 {% endmacro %}
+
 
 {% macro dnssec_validation(args) %}
   dnssec-validation {{ args }};
@@ -722,6 +724,17 @@ clause:
   hostname: myhost
 #}
 {% endmacro %}
+
+
+{% macro inline_signing(args) %}
+  inline-signing {{ args }};
+{# options
+---
+clause:
+  inline_signing: "yes" | "no"
+#}
+{% endmacro %}
+
 
 {% macro interface_interval(args) %}
   interface-interval {{ args }};
