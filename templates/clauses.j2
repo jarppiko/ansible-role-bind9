@@ -19,7 +19,7 @@ keys:
 
 {% macro cds_digest_types(args) %}
 {% if args|length > 0 -%}
-  cds-digest-types { {{ args|join(';') }}; };
+cds-digest-types { {{ args|join(';') }}; };
 {% endif %}
 {# dnssec-policy
 ---
@@ -28,23 +28,23 @@ cds_digest_types:
   - string
   - ...    
 #}
-{% endmacro %}
+{%- endmacro %}
 
 
-{% macro dnssec_policy_keys(args) %}
-  {% set keys_args = "" -%}
-  {% for arg in args -%}
-    {% set key_arg = "" -%}
-    {% for key_opt in bind_clauses.dnssec_policy.keys -%}
+{%- macro dnssec_policy_keys(args) -%}
+  {%- set keys_args = "" -%}
+  {%- for arg in args -%}
+    {%- set key_arg = "" -%}
+    {%- for key_opt in bind_clauses.dnssec_policy.keys -%}
         {% if key_opt != 'algorithm_value' and key_opt in arg -%}
-            {% set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt]|string() -%}
-        {% endif %}
-    {% endfor %}
-    {% if 'algorithm_value' in arg -%}
-        {% set key_arg = key_arg + ' ' + arg['algorithm_value']|string() -%}
-    {% endif %}
-    {% set keys_arg = keys_args + key_arg + ';' -%}
-  {% endfor %}
+            {%- set key_arg = key_arg + ' ' + key_opt.replace('_', '-') + ' ' + arg[key_opt]|string() -%}
+        {%- endif %}
+    {%- endfor %}
+    {%- if 'algorithm_value' in arg -%}
+        {%- set key_arg = key_arg + ' ' + arg['algorithm_value']|string() -%}
+    {%- endif -%}
+    {%- set keys_arg = keys_args + key_arg + ';' -%}
+  {%- endfor %}
   keys { {{ keys_args }} };
 {# dnssec-policy
 ---
@@ -57,7 +57,7 @@ keys:
     algorithm_value: int
   - type: ...
 #}
-{% endmacro %}
+{%- endmacro -%}
 
 {%- macro nsec3param(args) -%}
   {%- set params = [] -%}
