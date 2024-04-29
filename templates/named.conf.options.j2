@@ -1,5 +1,5 @@
 // {{ ansible_managed}}
-{% set final_acls = (combine(acls)|default({}))%}
+{% set final_acls = (acls|default({})) %}
 {% set final_options = (default_options|combine(options|default({}))) %}
 {% import './templates/clauses.j2' as macro_clauses with context %}
 {{ macro_clauses.acls(final_acls) }}
