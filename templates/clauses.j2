@@ -118,7 +118,7 @@ acls:
 // ACL statements
   {% for acl_name, acl_items in acl_args.items() -%}
 acl {{ acl_name }} { 
-    {%- for acl_item in acl_items -%%}
+    {%- for acl_item in acl_items -%}
     {{ acl_item }};
     {%- endfor %}
 };
