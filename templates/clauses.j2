@@ -104,6 +104,27 @@ dnssec_policies:
   salt_length: int  
 #}
 
+{# top-level
+---
+acls:
+  acl_name1:
+    - '192.168.0.1/24'
+    - localhost
+  acl_name2:
+    - '10.1.0.0/16'
+#}
+
+{% macro acls(acl_args) -%}
+// ACL statements
+  {% for acl_name, acl_items in acl_args.items() %}
+acl {{ acl_name }} { 
+    {% for acl_item in acl_items %}
+    {{ acl_item }};
+    {% endfor %}
+};
+  {% endfor %}
+{%- endmacro %}
+
 
 {% macro options(options_args) -%}
 options {
