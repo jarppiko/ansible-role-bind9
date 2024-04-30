@@ -94,6 +94,7 @@ zone4: statement1=foo, statement2=koala
 ```
 
 **manage-bind** support the following `clauses`:
+- _acl_
 - _options_
 - _zone_
 - _key_
@@ -111,6 +112,30 @@ See `./vars/main.yml`
   However, thoses tools are limited to **syntax** and **light coherence** verification. _This role do **not** provide advanced validation methods._
 - Escape special chars like @ with quotes
 - Some statements requires "yes|no" string values: Escape **yes** and **no** with quotes as Ansible evaluates them as boolean.
+
+### The ACL clause
+
+`acl` clauses are optional and define Access Control Lists that can be used in `options`. ACLs are list of IP addresses or subnet ranges. See Bind9 documentation ([acl](https://bind9.readthedocs.io/en/v9.18.26/reference.html#acl-block-grammar), [address match lists](https://bind9.readthedocs.io/en/v9.18.26/reference.html#address-match-lists)) for details. 
+
+> playbook.yml
+```yaml
+- name: Install Bind9 DNS server
+  hosts: dns
+  roles:
+    - role: aalaesar.bind
+      become: false
+      acls:
+        intranets:
+          - '192.168.88.0/24'
+          - '192.168.89.0/24'
+        containers:
+          - '192.168.100.0/24'
+      options:
+        allow_query:
+          - localhost   # 'localhost' is predefined ACL in Bind9
+          - intranets   # defined ACL
+          - containers  # also a defined ACL
+```
 
 ### The Options clause
 **Note:** The role comes with some default options.
