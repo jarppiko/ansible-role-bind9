@@ -95,6 +95,7 @@ zone4: statement1=foo, statement2=koala
 
 **manage-bind** support the following `clauses`:
 - _acl_
+- _dnssec-policy_
 - _options_
 - _zone_
 - _key_
@@ -135,6 +136,45 @@ See `./vars/main.yml`
           - localhost   # 'localhost' is predefined ACL in Bind9
           - intranets   # defined ACL
           - containers  # also a defined ACL
+```
+
+### The DNSSEC Policy clause
+
+**Note:** The Bind9's default DNSSEC policy (`dnssec-policy: default`) is most likely what you want unless you *really* know what you are doing. Use `none` to disable DNSSEC. Please **do not** use the example below as any guidance for DNSSEC configuration. 
+
+> playbook.yml
+```yaml
+- name: Install Bind9 DNS server
+  hosts: dns
+  roles:
+    - role: aalaesar.bind
+      become: false
+      options:
+        dnssec_validation: auto
+        dnssec_policy: test-dnssec-policy  
+      dnssec_policies:
+        test-dnssec-policy:
+          cdnskey: "yes"
+          cds_digest_types:
+            - "SHA-256"
+            - "SHA-512"
+          dnskey_ttl: 7200
+          inline_signing: "yes"
+          keys:
+            - type: csk
+              key_directory: /var/lib/bind/keys
+              lifetime: 3600
+              algorithm: rsasha256 
+              algorithm_value: 2048
+            - type: zsk
+              key_directory: /var/lib/bind/keys
+              lifetime: P30D
+              algorithm: ecdsa256
+          max_zone_ttl: 10000
+          nsec3param:
+            iterations: 10
+            optout: "no"
+            salt_length: 64
 ```
 
 ### The Options clause
