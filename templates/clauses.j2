@@ -95,7 +95,6 @@ nsec3param:
 {% if 'keys' in dnssec_policy_args -%}
   {{ dnssec_policy_keys(dnssec_policy_args['keys']) }}
 {%- endif %}
-{%- endmacro %}
 {# top-level
 ---
 dnssec_policies:
@@ -103,16 +102,9 @@ dnssec_policies:
   optout: "yes" | "no"
   salt_length: int  
 #}
+{%- endmacro %}
 
-{# top-level
----
-acls:
-  acl_name1:
-    - '192.168.0.1/24'
-    - localhost
-  acl_name2:
-    - '10.1.0.0/16'
-#}
+
 
 {% macro acls(acl_args) -%}
 // ACL statements
@@ -122,7 +114,17 @@ acl {{ acl_name }} {
     {{ acl_item }};
     {% endfor %}
 };
-  {% endfor %}
+
+{% endfor %}
+{# top-level
+---
+acls:
+  acl_name1:
+    - '192.168.0.1/24'
+    - localhost
+  acl_name2:
+    - '10.1.0.0/16'
+#}
 {%- endmacro %}
 
 
