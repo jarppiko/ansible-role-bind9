@@ -5,14 +5,14 @@
 include "/etc/bind/zones.rfc1918";
 {% endif %}
 
+{% if dnssec_policies is defined %}
 // DNSSEC policies
-{% if dnssec_policies is defined -%}
-{% for policy_name, policy_args in dnssec_policies.items() -%}
+{% for policy_name, policy_args in dnssec_policies.items() %}
 dnssec-policy "{{ policy_name }}" {
   {{ clauses.dnssec_policy(policy_args) }}
 };
 
-{%- endfor %}
+{% endfor %}
 {%- endif %}
 
 // Keys
