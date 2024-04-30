@@ -11,6 +11,7 @@ bind_records:
   - TXT
 bind_clauses:
   key:
+  acls:
   dnssec_policy:
     params:
       - cdnskey
