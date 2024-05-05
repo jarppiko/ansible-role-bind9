@@ -4,6 +4,6 @@
 {% import './templates/clauses.j2' as macro_clauses with context %}
 {{ macro_clauses.acls(final_acls) }}
 {{ macro_clauses.options(final_options) }}
-{% if statistics_channel is defined %}
-{{ macro_clauses.statistics_channel(statistics_channel) }}
+{% if statistics_channels is defined %}
+{{ macro_clauses.statistics_channels(statistics_channels) }}
 {% endif %}
