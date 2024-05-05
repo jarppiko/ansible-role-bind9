@@ -1,24 +1,16 @@
 ---
 - name: Find named-checkconf
-  ansible.buildin.find:
-    patterns:
-      - named-checkconf
+  ansible.builtin.find:
+    patterns: named-checkconf
     paths:
       - /usr/sbin
       - /usr/bin
     use_regex: true
   register: named_checkconf
 
-- name: Set named-checkconf
-  set_fact:
-    named_checkconf: "{{ results.files[0].path }}"
-
 - name: Find named-checkzone
-  set_fact:
-    named_checkzone: "{{ results.files[0].path }}"
-  ansible.buildin.find:
-    patterns:
-      - named-checkzone
+  ansible.builtin.find:
+    patterns: named-checkzone
     paths:
       - /usr/sbin
       - /usr/bin
@@ -26,7 +18,7 @@
   register: named_checkzone
 
 - name: Executables found
-  debug:
+  ansible.builtin.debug:
     msg:
       - "named-checkconf found: {{ named_checkconf.files[0].path }}"
       - "named-checkzone found: {{ named_checkzone.files[0].path }}"
