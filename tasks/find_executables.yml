@@ -1,29 +1,32 @@
 ---
 - name: Find named-checkconf
-  set_fact:
-    named_checkconf: "{{ executable }}"
-  with_first_found:
-    - files:
-        - named-checkconf
-      paths:
-        - /usr/sbin
-        - /usr/bin
-  loop_control:
-    loop_var: executable
+  ansible.builtin.find:
+    patterns: named-checkconf
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    use_regex: true
+  register: named_checkconf
 
 - name: Find named-checkzone
+  ansible.builtin.find:
+    patterns: named-checkzone
+    paths:
+      - /usr/sbin
+      - /usr/bin
+    use_regex: true
+  register: named_checkzone
+
+- name: Executables found
+  ansible.builtin.debug:
+    msg:
+      - "named-checkconf found: {{ named_checkconf.files[0].path }}"
+      - "named-checkzone found: {{ named_checkzone.files[0].path }}"
+
+- name: Set named-checkconf
   set_fact:
-    named_checkzone: "{{ executable }}"
-  with_first_found:
-    - files:
-        - named-checkzone
-      paths:
-        - /usr/sbin
-        - /usr/bin
-  loop_control:
-    loop_var: executable
-# - name: Executables found
-#   debug:
-#     msg:
-#       - "named-checkconf found: {{ named_checkconf }}"
-#       - "named-checkzone found: {{ named_checkzone }}"
+    named_checkconf: "{{ named_checkconf.files[0].path }}"
+
+- name: Set named-checkzone
+  set_fact:
+    named_checkzone: "{{ named_checkzone.files[0].path }}"
