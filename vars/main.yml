@@ -146,6 +146,10 @@ bind_clauses:
       - cleaning_interval
       - heartbeat_interval
       - interface_interval
+  statistics_file:
+    - address
+    - port
+    - allow
   zone:
     common:
       - allow_query
