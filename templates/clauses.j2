@@ -130,7 +130,7 @@ acls:
 
 {% macro statistics_channel(args) %}
   statistics-channel { 
-    inet "{{ args.address }}" port "{{ args.port | default('8053') }}" allow {
+    inet "{{ args.address }}" port "{{ args.port | default(8053) | string }}" allow {
         {% for address_or_acl in args.allow %}
             "{{ address_or_acl }}";
         {% endfor %}
